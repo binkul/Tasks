@@ -45,9 +45,7 @@ public class TaskController {
 
     /**
      * can be @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask") or @GetMapping("deleteTask")
-     *  url --> http://localhost:8080/v1/task/deleteTask
-     * or @RequestMapping(method = RequestMethod.DELETE) or @GetMapping
-     *  url --> http://localhost:8080/v1/task
+     *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1
      */
     @DeleteMapping("deleteTask")
     void deleteTask(@RequestParam("taskId") Long taskId) {
