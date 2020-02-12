@@ -1,13 +1,17 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/task")
@@ -46,8 +50,8 @@ public class TaskController {
      * TaskDto getTask(@PathVariable("taskId") Long taskId) --> url: http://localhost:8080/v1/task/getTask/1
      */
     @GetMapping("getTask")
-    TaskDto getTask(@RequestParam("taskId") Long taskId) {
-        return new TaskDto(taskId, "Test title", "test_content");
+    TaskDto getTask(@RequestParam("taskId") Long taskId) throws SQLException {
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new SQLException("No 'Task' found with Id=" + taskId)));
     }
 
     /**
