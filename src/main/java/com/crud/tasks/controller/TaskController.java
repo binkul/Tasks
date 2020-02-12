@@ -1,17 +1,14 @@
 package com.crud.tasks.controller;
 
-import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
-import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/task")
@@ -74,9 +71,9 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/updateTask
      */
-    @PutMapping("updateTask")
-    TaskDto updateTask(@RequestBody TaskDto task) {
-        return new TaskDto(task.getId(), task.getTitle(), task.getContent());
+    @PutMapping(value = "updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    TaskDto updateTask(@RequestBody TaskDto taskDto) {
+        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
     /**
@@ -90,8 +87,8 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/createTask
      */
-    @PostMapping("createTask")
-    void createTask(@RequestBody TaskDto task) {
-
+    @PostMapping(value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    void createTask(@RequestBody TaskDto taskDto) {
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
