@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class TaskController {
      */
     @DeleteMapping("deleteTask")
     void deleteTask(@RequestParam("taskId") Long taskId) {
-
+        service.deleteTask(taskId);
     }
 
     /**
