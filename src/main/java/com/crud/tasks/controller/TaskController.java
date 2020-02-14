@@ -53,11 +53,15 @@ public class TaskController {
     }
 
     /**
-     * can be @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask") or @GetMapping("deleteTask")
-     *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1
+     *  the best is @DeleteMapping("deleteTask/{taskId}") --> void deleteTask(@PathVariable Long taskId) because
+     *  url --> http://localhost:8080/v1/task/deleteTask/1 hide the name of the variable taskId - this url identifies the resource
+     *  without the name of the variable
+     *  can be @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask") or @GetMapping("deleteTask")
+     *  deleteTask(@RequestParam("taskId") Long taskId)
+     *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1 - this is acceptable, but not professional
      */
-    @DeleteMapping("deleteTask")
-    void deleteTask(@RequestParam("taskId") Long taskId) {
+    @DeleteMapping("deleteTask/{taskId}")
+    void deleteTask(@PathVariable Long taskId) {
         service.deleteTask(taskId);
     }
 
