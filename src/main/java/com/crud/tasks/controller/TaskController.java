@@ -48,8 +48,8 @@ public class TaskController {
      * TaskDto getTask(@PathVariable("taskId") Long taskId) --> url: http://localhost:8080/v1/task/getTask/1
      */
     @GetMapping("getTask")
-    TaskDto getTask(@RequestParam("taskId") Long taskId) throws SQLException {
-        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new SQLException("No 'Task' found with Id=" + taskId)));
+    TaskDto getTask(@RequestParam("taskId") Long taskId) throws EntityNotFoundException {
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new EntityNotFoundException("Task " + taskId + " not found!")));
     }
 
     /**
