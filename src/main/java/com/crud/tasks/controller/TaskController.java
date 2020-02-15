@@ -1,18 +1,15 @@
 package com.crud.tasks.controller;
 
-import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
-import com.sun.nio.sctp.IllegalReceiveException;
-import org.hibernate.action.internal.EntityActionVetoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLDataException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/task")
@@ -56,12 +53,16 @@ public class TaskController {
     }
 
     /**
-     * can be @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask") or @GetMapping("deleteTask")
-     *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1
+     *  the best is @DeleteMapping("deleteTask/{taskId}") --> void deleteTask(@PathVariable Long taskId) because
+     *  url --> http://localhost:8080/v1/task/deleteTask/1 hide the name of the variable taskId - this url identifies the resource
+     *  without the name of the variable
+     *  can be @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask") or @GetMapping("deleteTask")
+     *  deleteTask(@RequestParam("taskId") Long taskId)
+     *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1 - this is acceptable, but not professional
      */
-    @DeleteMapping("deleteTask")
-    void deleteTask(@RequestParam("taskId") Long taskId) {
-
+    @DeleteMapping("deleteTask/{taskId}")
+    void deleteTask(@PathVariable Long taskId) {
+        service.deleteTask(taskId);
     }
 
     /**
@@ -75,9 +76,9 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/updateTask
      */
-    @PutMapping("updateTask")
-    TaskDto updateTask(@RequestBody TaskDto task) {
-        return new TaskDto(task.getId(), task.getTitle(), task.getContent());
+    @PutMapping(value = "updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    TaskDto updateTask(@RequestBody TaskDto taskDto) {
+        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
     /**
@@ -91,8 +92,8 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/createTask
      */
-    @PostMapping("createTask")
-    void createTask(@RequestBody TaskDto task) {
-
+    @PostMapping(value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    void createTask(@RequestBody TaskDto taskDto) {
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
