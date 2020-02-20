@@ -1,0 +1,46 @@
+body
+{
+	background-color: gray;
+}
+
+h1
+{
+	font-size: 50px;
+	font-weight: bold;
+	color: red;
+	text-align: center;
+}
+
+p
+{
+	font-size: 16px;
+	font-style: italic;
+	color: blue;
+	text-align: center;
+}
+
+.tadeusz
+{
+	border: 3px solid brown;
+	box-shadow: 5px 5px 5px brown;
+	padding: 10px 20px;
+	color: rgb(255, 255, 90);
+	font-size: 20px;
+	text-align:left;
+}
+
+h2
+{
+	font-size: 30px;
+	font-weight: bold;
+	color: red;
+	text-align: left;
+	padding: 0 10px;
+}
+
+ol
+{
+	color: yellow;
+	text-align: left;
+	padding: 0 60px;
+}
