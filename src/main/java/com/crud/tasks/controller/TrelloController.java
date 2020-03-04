@@ -18,6 +18,9 @@ public class TrelloController {
     @GetMapping("getTrelloBoards")
     public void getTrelloBoards() {
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-        trelloBoards.forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
+        trelloBoards.stream()
+                .filter(i -> (i.getId() != null) && (i.getName() != null))
+                .filter(i -> i.getName().contains("Kodilla"))
+                .forEach(i -> System.out.println(i.getId() + " " + i.getName()));
     }
 }
