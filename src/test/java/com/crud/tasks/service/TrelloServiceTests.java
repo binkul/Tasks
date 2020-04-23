@@ -1,24 +1,20 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.config.AdminConfig;
-import com.crud.tasks.domain.*;
+import com.crud.tasks.domain.CreatedTrelloCardDto;
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.domain.trello.AttachmentsByBodyField;
 import com.crud.tasks.domain.trello.BadgesField;
 import com.crud.tasks.domain.trello.TrelloField;
 import com.crud.tasks.trello.client.TrelloClient;
-import com.crud.tasks.trello.config.TrelloConfig;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

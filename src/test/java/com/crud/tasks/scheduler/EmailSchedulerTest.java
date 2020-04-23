@@ -1,7 +1,8 @@
-package com.crud.tasks.service;
+package com.crud.tasks.scheduler;
 
 import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.Mail;
+import com.crud.tasks.service.SimpleEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,17 +12,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class SimpleEmailServiceTest {
+public class EmailSchedulerTest {
 
     @InjectMocks
     private SimpleEmailService simpleEmailService;
 
     @InjectMocks
+    private EmailScheduler emailScheduler;
+
+    @Mock
     private AdminConfig adminConfig;
 
     @Mock
@@ -30,7 +33,8 @@ public class SimpleEmailServiceTest {
     @Test
     public void shouldSendmail() {
         //Given
-        Mail mail = new Mail(adminConfig.getAdminMail(), "", "Test", "This is test message");
+        when(adminConfig.getAdminMail()).thenReturn("tmp@tmp.tmp");
+        Mail mail = emailScheduler.prepareMail(2);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
