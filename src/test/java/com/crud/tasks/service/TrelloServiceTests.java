@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -78,6 +77,24 @@ public class TrelloServiceTests {
         assertNotNull(returnedAttachment);
         assertEquals(1, returnedAttachment.getTrello().getCard());
         assertEquals(1, returnedAttachment.getTrello().getBoard());
+    }
+
+    @Test
+    public void createTrelloCardWithNoBadgestTest() {
+        // Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto("card", "none", "1", "2");
+        CreatedTrelloCardDto testCardDto = new CreatedTrelloCardDto("1", "card", "tmp/tmp", null);
+
+        // When
+        when(trelloClient.createNewCard(trelloCardDto)).thenReturn(testCardDto);
+        when(adminConfig.getAdminMail()).thenReturn("none");
+        CreatedTrelloCardDto createdCard = trelloService.createTrelloCard(trelloCardDto);
+        BadgesField returnedBadges = createdCard.getBadges();
+
+        // Then
+        assertNotNull(createdCard);
+        assertEquals("tmp/tmp", createdCard.getShortUrl());
+        assertNull(returnedBadges);
     }
 
 }

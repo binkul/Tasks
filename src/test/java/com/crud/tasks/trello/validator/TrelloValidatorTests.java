@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloValidatorTests {
@@ -46,5 +45,31 @@ public class TrelloValidatorTests {
         // Then
         assertEquals(2, trelloBoards.size());
         assertEquals(1, filteredBoards.size());
+    }
+
+    @Test
+    public void validateTrelloBoardsEmptyTests() {
+        // Given
+        TrelloBoard trelloBoardA = new TrelloBoard("1", "test", new ArrayList<>());
+        TrelloBoard trelloBoardB = new TrelloBoard("2", "TEST", new ArrayList<>());
+        List<TrelloBoard> trelloBoards = Arrays.asList(trelloBoardA, trelloBoardB);
+
+        // When
+        List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBoards(trelloBoards);
+
+        // Then
+        assertEquals(2, trelloBoards.size());
+        assertEquals(0, filteredBoards.size());
+    }
+
+    @Test
+    public void validateTrelloBoardsNullTests() {
+        // Given
+
+        // When
+        List<TrelloBoard> filteredBoards = trelloValidator.validateTrelloBoards(null);
+
+        // Then
+        assertTrue(filteredBoards.isEmpty());
     }
 }

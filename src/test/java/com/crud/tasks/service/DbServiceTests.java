@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,9 @@ public class DbServiceTests {
         Task savedTask = service.saveTask(task);
 
         // Then
-        assertEquals(1, (long) task.getId());
-        assertEquals("task", task.getTitle());
-        assertEquals("none", task.getContent());
+        assertEquals(1, (long) savedTask.getId());
+        assertEquals("task", savedTask.getTitle());
+        assertEquals("none", savedTask.getContent());
     }
 
     @Test
@@ -89,5 +90,19 @@ public class DbServiceTests {
         // Then
         assertEquals(3, returnedTasks.size());
         assertEquals("taskB", returnedTasks.get(1).getTitle());
+    }
+
+    @Test
+    public void shouldGetEmptyTaskList() {
+        // Given
+        List<Task> tasks = new ArrayList<>();
+
+        // When
+        logger.info("Test shouldGetEmptyTaskList start ...");
+        when(repository.findAll()).thenReturn(tasks);
+        List<Task> returnedTasks = service.getAllTasks();
+
+        // Then
+        assertEquals(0, returnedTasks.size());
     }
 }

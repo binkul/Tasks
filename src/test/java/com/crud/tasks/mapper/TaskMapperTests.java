@@ -10,11 +10,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskMapperTests {
@@ -42,6 +43,18 @@ public class TaskMapperTests {
     }
 
     @Test
+    public void mapToTaskNullTest() {
+        // Given
+
+        // When
+        logger.info("Test mapToTaskNullTest start ...");
+        Task task = taskMapper.mapToTask(null);
+
+        // Then
+        assertNull(task);
+    }
+
+    @Test
     public void mapToTaskDtoTest() {
         // Given
         String title = "new task";
@@ -60,6 +73,18 @@ public class TaskMapperTests {
     }
 
     @Test
+    public void mapToTaskDtoNullTest() {
+        // Given
+
+        // When
+        logger.info("Test mapToTaskDtoNullTest start ...");
+        TaskDto taskDto = taskMapper.mapToTaskDto(null);
+
+        // Then
+        assertNull(taskDto);
+    }
+
+    @Test
     public void mapToTaskListDtoTest() {
         // Given
         List<Task> tasks = IntStream.rangeClosed(1, 20)
@@ -74,5 +99,30 @@ public class TaskMapperTests {
         assertEquals(20, taskDtos.size());
         assertEquals(10, (long) taskDtos.get(9).getId());
         assertEquals("title15", taskDtos.get(14).getTitle());
+    }
+
+    @Test
+    public void mapToTaskListDtoNullTest() {
+        // Given
+
+        // When
+        logger.info("Test mapToTaskListDtoTest start ...");
+        List<TaskDto> taskDtos = taskMapper.mapToTaskListDto(null);
+
+        // Then
+        assertTrue(taskDtos.isEmpty());
+    }
+
+    @Test
+    public void mapToEmptyTaskListDtoTest() {
+        // Given
+        List<Task> tasks = new ArrayList<>();
+
+        // When
+        logger.info("Test mapToTaskListDtoTest start ...");
+        List<TaskDto> taskDtos = taskMapper.mapToTaskListDto(tasks);
+
+        // Then
+        assertTrue(taskDtos.isEmpty());
     }
 }
