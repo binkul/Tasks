@@ -1,5 +1,6 @@
 package com.crud.tasks.service;
 
+import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.Mail;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +21,16 @@ public class SimpleEmailServiceTest {
     @InjectMocks
     private SimpleEmailService simpleEmailService;
 
+    @InjectMocks
+    private AdminConfig adminConfig;
+
     @Mock
     private JavaMailSender javaMailSender;
 
     @Test
     public void shouldSendmail() {
         //Given
-        Mail mail = new Mail("test@test.com", "", "Test", "This is test message");
+        Mail mail = new Mail(adminConfig.getAdminMail(), "", "Test", "This is test message");
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());

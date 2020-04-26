@@ -28,7 +28,7 @@ public class EmailScheduler {
         simpleEmailService.send(prepareMail(size));
     }
 
-    private Mail prepareMail(long size) {
+    public Mail prepareMail(long size) {
         String task = size > 1 ? " tasks." : " task.";
         return new Mail(adminConfig.getAdminMail(), "", SUBJECT, MESSAGE + size + task);
     }

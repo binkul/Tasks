@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,8 @@ public class TrelloValidator {
     }
 
     public List<TrelloBoard> validateTrelloBoards(final List<TrelloBoard> trelloBoards) {
+        if (trelloBoards == null) return new ArrayList<>();
+
         logger.info("Starting filtering boards ...");
         List<TrelloBoard> filteredBoards = trelloBoards.stream()
                 .filter(trelloBoard -> !trelloBoard.getName().equalsIgnoreCase("test"))
