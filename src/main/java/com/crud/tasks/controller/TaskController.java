@@ -48,7 +48,7 @@ public class TaskController {
      */
     @GetMapping("/getTask/{taskId}")
     TaskDto getTask(@PathVariable Long taskId) throws EntityNotFoundException {
-        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new EntityNotFoundException("Task " + taskId + " not found!")));
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId));
     }
 
     /**
@@ -61,7 +61,6 @@ public class TaskController {
      */
     @DeleteMapping("deleteTask/{taskId}")
     void deleteTask(@PathVariable Long taskId) throws EntityNotFoundException {
-        if (!service.getTaskById(taskId).isPresent()) throw new EntityNotFoundException("Task " + taskId + " not found!");
         service.deleteTask(taskId);
     }
 
@@ -78,8 +77,7 @@ public class TaskController {
      */
     @PutMapping(value = "/updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
     TaskDto updateTask(@RequestBody TaskDto taskDto) throws EntityNotFoundException {
-        if (!service.getTaskById(taskDto.getId()).isPresent()) throw new EntityNotFoundException("Task " + taskDto.getId() + " not found!");
-        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
+        return taskMapper.mapToTaskDto(service.updateTask(taskMapper.mapToTask(taskDto)));
     }
 
     /**
