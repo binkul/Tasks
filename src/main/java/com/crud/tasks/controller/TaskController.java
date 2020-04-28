@@ -24,7 +24,7 @@ public class TaskController {
      * or @RequestMapping(method = RequestMethod.GET) or @GetMapping
      *  url --> http://localhost:8080/v1/task
      */
-    @GetMapping("getTasks")
+    @GetMapping("/getTasks")
     List<TaskDto> getTasks() {
         return taskMapper.mapToTaskListDto(service.getAllTasks());
     }
@@ -46,8 +46,8 @@ public class TaskController {
      * @GetMapping("getTask/{taskId}")
      * TaskDto getTask(@PathVariable("taskId") Long taskId) --> url: http://localhost:8080/v1/task/getTask/1
      */
-    @GetMapping("getTask")
-    TaskDto getTask(@RequestParam("taskId") Long taskId) throws EntityNotFoundException {
+    @GetMapping("/getTask/{taskId}")
+    TaskDto getTask(@PathVariable Long taskId) throws EntityNotFoundException {
         return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new EntityNotFoundException("Task " + taskId + " not found!")));
     }
 
@@ -75,7 +75,7 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/updateTask
      */
-    @PutMapping(value = "updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
     TaskDto updateTask(@RequestBody TaskDto taskDto) {
         return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
@@ -91,7 +91,7 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/createTask
      */
-    @PostMapping(value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
     void createTask(@RequestBody TaskDto taskDto) {
         service.saveTask(taskMapper.mapToTask(taskDto));
     }
