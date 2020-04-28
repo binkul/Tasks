@@ -1,27 +1,24 @@
 package com.crud.tasks.service;
 
+import com.crud.tasks.controller.EntityNotFoundException;
 import com.crud.tasks.domain.Task;
-import com.crud.tasks.mapper.TrelloMapperTests;
 import com.crud.tasks.repository.TaskRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DbServiceTests {
-    private final static Logger logger = LoggerFactory.getLogger(TrelloMapperTests.class);
 
     @InjectMocks
     private DbService service;
@@ -35,7 +32,6 @@ public class DbServiceTests {
         Task task = new Task(1L, "task", "none");
 
         // When
-        logger.info("Test shouldSaveTaskTest start ...");
         when(repository.save(task)).thenReturn(task);
         Task savedTask = service.saveTask(task);
 
@@ -45,33 +41,32 @@ public class DbServiceTests {
         assertEquals("none", savedTask.getContent());
     }
 
-    @Test
-    public void shouldGetEmptyTaskTest() {
+
+
+    @Test(expected = EntityNotFoundException.class)
+    public void shouldGetEmptyTaskTest() throws EntityNotFoundException {
         // Given
 
-        // When
-        logger.info("Test shouldGetEmptyTaskTest start ...");
+        // When & Then
         when(repository.findById(1L)).thenReturn(Optional.empty());
-        Optional<Task> returnedTask = service.getTaskById(1L);
-
-        // Then
-        assertFalse(returnedTask.isPresent());
+        Task returnedTask = service.getTaskById(1L);
     }
 
+
+
     @Test
-    public void shouldGetTaskTest() {
+    public void shouldGetTaskTest() throws EntityNotFoundException {
         // Given
         Task task = new Task(1L, "task", "none");
 
         // When
-        logger.info("Test shouldGetTaskTest start ...");
         when(repository.findById(1L)).thenReturn(Optional.of(task));
-        Optional<Task> returnedTask = service.getTaskById(1L);
+        Task returnedTask = service.getTaskById(1L);
 
         // Then
-        assertEquals(1, (long) returnedTask.get().getId());
-        assertEquals("task", returnedTask.get().getTitle());
-        assertEquals("none", returnedTask.get().getContent());
+        assertEquals(1, (long) returnedTask.getId());
+        assertEquals("task", returnedTask.getTitle());
+        assertEquals("none", returnedTask.getContent());
     }
 
     @Test
@@ -83,7 +78,6 @@ public class DbServiceTests {
         List<Task> tasks = Arrays.asList(taskA, taskB, taskC);
 
         // When
-        logger.info("Test shouldGetTaskListTest start ...");
         when(repository.findAll()).thenReturn(tasks);
         List<Task> returnedTasks = service.getAllTasks();
 
@@ -98,7 +92,6 @@ public class DbServiceTests {
         List<Task> tasks = new ArrayList<>();
 
         // When
-        logger.info("Test shouldGetEmptyTaskList start ...");
         when(repository.findAll()).thenReturn(tasks);
         List<Task> returnedTasks = service.getAllTasks();
 
