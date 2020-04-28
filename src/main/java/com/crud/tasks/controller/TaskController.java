@@ -48,7 +48,7 @@ public class TaskController {
      */
     @GetMapping("/getTask/{taskId}")
     TaskDto getTask(@PathVariable Long taskId) throws EntityNotFoundException {
-        return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(() -> new EntityNotFoundException("Task " + taskId + " not found!")));
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId));
     }
 
     /**
@@ -60,7 +60,7 @@ public class TaskController {
      *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1 - this is acceptable, but not professional
      */
     @DeleteMapping("deleteTask/{taskId}")
-    void deleteTask(@PathVariable Long taskId) {
+    void deleteTask(@PathVariable Long taskId) throws EntityNotFoundException {
         service.deleteTask(taskId);
     }
 
@@ -76,8 +76,8 @@ public class TaskController {
      * url should be --> http://localhost:8080/v1/task/updateTask
      */
     @PutMapping(value = "/updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
-    TaskDto updateTask(@RequestBody TaskDto taskDto) {
-        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
+    TaskDto updateTask(@RequestBody TaskDto taskDto) throws EntityNotFoundException {
+        return taskMapper.mapToTaskDto(service.updateTask(taskMapper.mapToTask(taskDto)));
     }
 
     /**

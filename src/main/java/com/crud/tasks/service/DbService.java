@@ -1,12 +1,12 @@
 package com.crud.tasks.service;
 
+import com.crud.tasks.controller.EntityNotFoundException;
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DbService {
@@ -17,15 +17,21 @@ public class DbService {
         return repository.findAll();
     }
 
-    public Optional<Task> getTaskById(Long id) {
-        return repository.findById(id);
+    public Task getTaskById(Long id) throws EntityNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task " + id + " not found!"));
     }
 
     public Task saveTask(Task task) {
         return repository.save(task);
     }
 
-    public void deleteTask(Long id) {
+    public Task updateTask(Task task) throws EntityNotFoundException {
+        getTaskById(task.getId());
+        return saveTask(task);
+    }
+
+    public void deleteTask(Long id) throws EntityNotFoundException {
+        getTaskById(id);
         repository.deleteById(id);
     }
 }
