@@ -1,0 +1,1 @@
+explain select * from readers where firstname like 'John'
