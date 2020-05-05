@@ -12,4 +12,8 @@ import lombok.NoArgsConstructor;
 public class AttachmentsByBodyField {
     @JsonProperty("trello")
     private TrelloField trello;
+
+    public AttachmentsByBodyField() {
+        super();
+    }
 }

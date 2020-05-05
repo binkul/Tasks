@@ -15,4 +15,8 @@ public class BadgesField {
 
     @JsonProperty("attachmentsByType")
     private AttachmentsByBodyField attachments;
+
+    public BadgesField() {
+        super();
+    }
 }

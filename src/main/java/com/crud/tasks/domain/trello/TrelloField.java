@@ -15,4 +15,8 @@ public class TrelloField {
 
     @JsonProperty("card")
     private int card;
+
+    public TrelloField() {
+        super();
+    }
 }
