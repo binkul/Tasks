@@ -28,9 +28,11 @@ dependencies {
 	compile('mysql:mysql-connector-java')
 	compile('com.google.code.gson:gson:2.8.6')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
 //	compile('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
 
 //	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 
