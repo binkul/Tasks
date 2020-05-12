@@ -16,5 +16,18 @@
         <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
         <span th:text="${one} + ${two}"></span>
 
+        <br>
+
+        <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
+        <div th:with="result=${two}+${two}">
+            <span th:text="${#strings.concat(two, '+', two, '=', result)}"></span>
+        </div>
+        <div th:with="result=${two}*${two}+${two}">
+            <span th:text="${#strings.concat(two, '*', two, '+', two, '=', result)}"></span>
+        </div>
+        <div th:with="result=${two}-${two}*${two}">
+            <span th:text="${#strings.concat(two, '-', two, '*', two, '=', result)}"></span>
+        </div>
+
     </body>
 </html>
