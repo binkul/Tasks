@@ -44,7 +44,7 @@ public class EmailSchedulerTest {
         mailMessage.setText(mail.getMessage());
 
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.sendSimpleMail(mail);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
@@ -63,7 +63,7 @@ public class EmailSchedulerTest {
         mailMessage.setText(mail.getMessage());
 
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.sendSimpleMail(mail);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
