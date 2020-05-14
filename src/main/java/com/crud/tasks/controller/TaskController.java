@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/tasks")
 public class TaskController {
     @Autowired
     private DbService service;
@@ -24,7 +24,7 @@ public class TaskController {
      * or @RequestMapping(method = RequestMethod.GET) or @GetMapping
      *  url --> http://localhost:8080/v1/task
      */
-    @GetMapping("/tasks")
+    @GetMapping
     List<TaskDto> getTasks() {
         return taskMapper.mapToTaskListDto(service.getAllTasks());
     }
@@ -46,7 +46,7 @@ public class TaskController {
      * @GetMapping("getTask/{taskId}")
      * TaskDto getTask(@PathVariable("taskId") Long taskId) --> url: http://localhost:8080/v1/task/getTask/1
      */
-    @GetMapping("/tasks/{taskId}")
+    @GetMapping("/{taskId}")
     TaskDto getTask(@PathVariable Long taskId) throws EntityNotFoundException {
         return taskMapper.mapToTaskDto(service.getTaskById(taskId));
     }
@@ -59,7 +59,7 @@ public class TaskController {
      *  deleteTask(@RequestParam("taskId") Long taskId)
      *  url --> http://localhost:8080/v1/task/deleteTask?taskId=1 - this is acceptable, but not professional
      */
-    @DeleteMapping("tasks/{taskId}")
+    @DeleteMapping("/{taskId}")
     void deleteTask(@PathVariable Long taskId) throws EntityNotFoundException {
         service.deleteTask(taskId);
     }
@@ -75,7 +75,7 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/updateTask
      */
-    @PutMapping(value = "/tasks", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     TaskDto updateTask(@RequestBody TaskDto taskDto) throws EntityNotFoundException {
         return taskMapper.mapToTaskDto(service.updateTask(taskMapper.mapToTask(taskDto)));
     }
@@ -91,7 +91,7 @@ public class TaskController {
      * and set Headers (next left) to key:Content-type | value:application/json;charset=utf-8
      * url should be --> http://localhost:8080/v1/task/createTask
      */
-    @PostMapping(value = "/tasks", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     void createTask(@RequestBody TaskDto taskDto) {
         service.saveTask(taskMapper.mapToTask(taskDto));
     }
