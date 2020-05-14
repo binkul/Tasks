@@ -33,6 +33,16 @@ public class SimpleEmailService {
         }
     }
 
+    public void sendSimpleMail(final Mail mail) {
+        LOGGER.info("Staring mail preparation ...");
+        try {
+            javaMailSender.send(createMailMessage(mail));
+            LOGGER.info("Email has been sent.");
+        } catch (MailException e) {
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
+        }
+    }
+
     private MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);

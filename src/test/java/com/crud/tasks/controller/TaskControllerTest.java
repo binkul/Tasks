@@ -58,7 +58,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskListDto(anyList())).thenReturn(taskDtos);
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -75,7 +75,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(ArgumentMatchers.any(Task.class))).thenReturn(taskDto);
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTask/1")
+        mockMvc.perform(get("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("taskId", "1"))
                 .andExpect(status().isOk())
@@ -90,7 +90,7 @@ public class TaskControllerTest {
         when(taskService.getTaskById(1L)).thenThrow(new EntityNotFoundException("Task 1 not found!"));
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTask/1")
+        mockMvc.perform(get("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("taskId", "1"))
                 .andExpect(status().isNotFound())
@@ -104,7 +104,7 @@ public class TaskControllerTest {
         doNothing().when(taskService).deleteTask(1L);
 
         // When & Then
-        mockMvc.perform(delete("/v1/task/deleteTask/1")
+        mockMvc.perform(delete("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("taskId", "1"))
                 .andExpect(status().isOk())
@@ -117,7 +117,7 @@ public class TaskControllerTest {
         doThrow(new EntityNotFoundException("Task 100 not found!")).when(taskService).deleteTask(100L);
 
         // When & Then
-        mockMvc.perform(delete("/v1/task/deleteTask/100")
+        mockMvc.perform(delete("/v1/tasks/100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("taskId", "100"))
                 .andExpect(status().isNotFound())
@@ -135,7 +135,7 @@ public class TaskControllerTest {
         String jsonContent = gson.toJson(taskDto);
 
         // When & Then
-        mockMvc.perform(post("/v1/task/createTask")
+        mockMvc.perform(post("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
@@ -157,7 +157,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(ArgumentMatchers.any(Task.class))).thenReturn(taskDto);
 
         // When & Then
-        mockMvc.perform(put("/v1/task/updateTask")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
@@ -181,7 +181,7 @@ public class TaskControllerTest {
         when(taskService.updateTask(ArgumentMatchers.any(Task.class))).thenThrow(new EntityNotFoundException("Task 1 not found!"));
 
         // When & Then
-        mockMvc.perform(put("/v1/task/updateTask")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
