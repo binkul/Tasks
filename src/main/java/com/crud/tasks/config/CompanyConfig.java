@@ -19,4 +19,7 @@ public class CompanyConfig {
 
     @Value("${info.company.phone}")
     private String companyPhone;
+
+    @Value("${info.company.location}")
+    private String companyLocation;
 }
